@@ -10,3 +10,5 @@
   $ yarn add -D @types/express
 
   $ yarn add typeorm@0.2.25 pg
+
+  $ yarn add apollo-graphql

@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from 'type-graphql'
+import { Field, Int, ObjectType, Directive } from 'type-graphql'
 import { 
   BaseEntity, 
   Column, 
@@ -8,6 +8,7 @@ import {
   UpdateDateColumn 
 } from 'typeorm'
 
+@Directive(`@key(fields: "id")`)
 @ObjectType()
 @Entity()
 export class Post extends BaseEntity {

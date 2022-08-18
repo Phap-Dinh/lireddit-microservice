@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@apollo/subgraph": "0.4.2",
+    "apollo-graphql": "^0.9.7",
     "apollo-server": "^3.10.0",
     "apollo-server-express": "^3.10.0",
     "argon2": "^0.28.7",

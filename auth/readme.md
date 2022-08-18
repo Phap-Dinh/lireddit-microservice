@@ -25,3 +25,5 @@
 
   $ yarn add nodemailer
   $ yarn add -D @types/nodemailer
+
+  $ yarn add apollo-graphql

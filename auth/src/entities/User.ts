@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from 'type-graphql'
+import { ObjectType, Field, Int, Directive } from 'type-graphql'
 import { 
   BaseEntity, 
   Column, 
@@ -12,6 +12,7 @@ import {
 // property (typescript) is non-nullable by default
 // column (typeorm) is non-nullable by default 
 
+@Directive(`@key(fields: "id")`)
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {

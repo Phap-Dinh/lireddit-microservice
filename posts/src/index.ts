@@ -1,13 +1,15 @@
 import 'reflect-metadata'
 import { ApolloServer } from 'apollo-server-express'
-import { buildSchema } from 'type-graphql'
 import { createConnection } from 'typeorm'
 
 import { app } from './app'
 import { POSTS_PORT } from './constants'
-import { HelloResolver } from './resolvers/hello'
 import { Post } from './entities/Post'
 import { PostResolver } from './resolvers/post'
+import { buildFederatedSchema } from './helpers/buildFederatedSchema'
+import { resolvePostReference } from './resolvers/post/reference'
+import { User } from './entities/User'
+import { UserPostsResolver } from './resolvers/user'
 
 const start = async () => {
   await createConnection({
@@ -17,15 +19,25 @@ const start = async () => {
     database: "lireddit2",
     username: "postgres",
     password: "1",
-    logging: true, 
+    logging: false, 
     synchronize: true,
     entities: [Post]
  })
 
-  const schema = await buildSchema({
-    resolvers: [HelloResolver, PostResolver],
-    validate: false
-  })
+  const schema = await buildFederatedSchema(
+    {
+      resolvers: [PostResolver, UserPostsResolver],
+      orphanedTypes: [Post, User]
+    },
+    {
+      Post: { __resolveReference: resolvePostReference }
+    }
+  )
+
+  // const schema = await buildSchema({
+  //   resolvers: [PostResolver],
+  //   validate: false
+  // })
 
   const apolloServer = new ApolloServer({
     schema,
@@ -43,7 +55,7 @@ const start = async () => {
 
   app.listen(POSTS_PORT, () => {
     console.log(`Server started on http://localhost:${POSTS_PORT}`)
-    console.log(`Graphql started on http://localhost:${POSTS_PORT}/graphql`)
+    console.log(`Graphql started on http://localhost:${POSTS_PORT}${apolloServer.graphqlPath}`)
   })
 }
 

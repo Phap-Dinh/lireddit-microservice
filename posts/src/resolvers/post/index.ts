@@ -2,16 +2,24 @@ import { Arg, FieldResolver, Int, Query, Resolver, Root } from 'type-graphql'
 import { getConnection } from 'typeorm';
 
 import { PaginatedPosts } from './types';
-import { Post } from '../entities/Post';
+import { Post } from '../../entities/Post';
+import { User } from '../../entities/User';
 
 @Resolver(Post)
 export class PostResolver {
-
   @FieldResolver(() => String)
   textSnippet(
     @Root() root: Post
   ) {
     return root.text.slice(0, 50)
+  }
+
+  @FieldResolver(() => User)
+  creator(
+    @Root() post: Post
+  ) {
+    console.log('creator')
+    return { __typename: "User", id: post.creatorId }
   }
 
   @Query(() => PaginatedPosts)

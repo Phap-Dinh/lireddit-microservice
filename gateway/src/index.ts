@@ -1,14 +1,14 @@
 import 'reflect-metadata'
 import { ApolloGateway, IntrospectAndCompose } from '@apollo/gateway'
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer } from 'apollo-server-express'
 
+import { app } from './app'
 import { GATEWAY_PORT } from './constants'
 
 const start = async () => {
-
-  // Just for test, it connect to autronauts service in space-camp-federation-demo
   const subgraphs = [
-    { name: "autronauts", url: "http://localhost:4001"}
+    { name: "users", url: "http://localhost:4001/graphql" },
+    { name: "posts", url: "http://localhost:4002/graphql" }
   ]
 
   const gateway = new ApolloGateway({
@@ -17,13 +17,22 @@ const start = async () => {
     })
   })
 
-  const server = new ApolloServer({
+  const apolloServer = new ApolloServer({
     gateway
   })
 
-  server.listen({ port: GATEWAY_PORT }).then(({ url }) => {
-    console.log(`Apollo Gateway ready at ${url}`)
+  await apolloServer.start()
+  apolloServer.applyMiddleware({ 
+    app,
+    cors: false
   })
+
+  app.listen({ port: GATEWAY_PORT }, () => {
+    console.log(
+      `Apollo Gateway ready at http://localhost:${GATEWAY_PORT}${apolloServer.graphqlPath}`
+    )
+  })
+
 }
 
 start().catch(console.error)
