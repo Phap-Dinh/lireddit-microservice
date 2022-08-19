@@ -7,7 +7,7 @@ import { User } from './entities/User'
 import { UserResolver } from './resolvers/user'
 import { AUTH_PORT } from './constants'
 import { buildFederatedSchema } from './helpers/buildFederatedSchema'
-import { resolveUserReference } from './resolvers/user-reference'
+import { resolveUserReference } from './resolvers/user/reference'
 
 const start = async () => {
   await createConnection({

@@ -34,11 +34,6 @@ const start = async () => {
     }
   )
 
-  // const schema = await buildSchema({
-  //   resolvers: [PostResolver],
-  //   validate: false
-  // })
-
   const apolloServer = new ApolloServer({
     schema,
     context: ({ req, res }) => ({

@@ -8,7 +8,7 @@ import { GATEWAY_PORT } from './constants'
 const start = async () => {
   const subgraphs = [
     { name: "users", url: "http://localhost:4001/graphql" },
-    { name: "posts", url: "http://localhost:4002/graphql" }
+    // { name: "posts", url: "http://localhost:4002/graphql" }
   ]
 
   const gateway = new ApolloGateway({
@@ -32,7 +32,6 @@ const start = async () => {
       `Apollo Gateway ready at http://localhost:${GATEWAY_PORT}${apolloServer.graphqlPath}`
     )
   })
-
 }
 
 start().catch(console.error)

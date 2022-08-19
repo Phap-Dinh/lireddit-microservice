@@ -3,21 +3,23 @@ import argon2 from 'argon2'
 import { getConnection } from 'typeorm'
 import { v4 } from 'uuid'
 
-import { User } from '../entities/User'
+import { User } from '../../entities/User'
 import { UserResponse, UsernamePasswordInput } from './types'
-import { validateRegister } from '../utils/validateRegister'
-import { MyContext } from '../context'
-import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from '../constants'
-import { sendEmail } from '../utils/sendEmail'
+import { validateRegister } from '../../utils/validateRegister'
+import { MyContext } from '../../context'
+import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from '../../constants'
+import { sendEmail } from '../../utils/sendEmail'
 
 @Resolver(User)
 export class UserResolver {
-  @FieldResolver(() => String)
+  
+  // Description is not working, email is overridden by email's @Field() 
+  @FieldResolver(() => String, { description: "user only see your email after login" })
   email(
     @Root() user: User,
     @Ctx() { req }: MyContext
   ): String {
-    
+
     // show their email for the current user
     if (req.session.userId === user.id) {
       return user.email
@@ -25,6 +27,12 @@ export class UserResolver {
 
     // user doesn't see any other's email
     return ""
+  }
+
+  @FieldResolver(() => String, { description: "just male" })
+  gender(): String {
+
+    return "male"
   }
 
   @Query(() => [User!]!)
@@ -95,7 +103,7 @@ export class UserResolver {
                 field: "username",
                 message: "username already exists"
               }
-           ]
+            ]
           }
         }
       }

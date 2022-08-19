@@ -27,3 +27,46 @@
   $ yarn add -D @types/nodemailer
 
   $ yarn add apollo-graphql
+
+  $ yarn add class-validator
+
+# Include cookie on Apollo Studio
+  app.set("trust proxy", true);
+  app.use(
+    cors({
+        origin: [
+          "http://localhost:3000",
+          "http://localhost:4000/graphql", 
+          "https://studio.apollographql.com"
+        ],
+        credentials: true,
+    })
+  );
+
+  app.use(
+    session({
+      name: "qid",
+      store: new RedisStore({ 
+        client: redisClient,
+        disableTouch: true
+      }),
+      cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
+        httpOnly: true,
+        sameSite: "none",
+        secure: true
+      },
+      saveUninitialized: false,
+      secret: "wubsildicioc",
+      resave: false
+    })
+  )
+
+  apolloServer.applyMiddleware({ 
+    app,
+    cors: false
+  });
+
+  Apollo Studio: Settings -> Connection settings -> Edit -> Include cookies -> x-Forwarded-Proto: https
+
+  Check cookie after login: right click -> inpect -> Application -> Cookies -> `qid`

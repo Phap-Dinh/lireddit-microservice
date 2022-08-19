@@ -1,13 +1,13 @@
-import { FieldError, UsernamePasswordInput } from '../resolvers/types'
+import { FieldError, UsernamePasswordInput } from '../resolvers/user/types'
 
-export const validateRegister = (options: UsernamePasswordInput): [FieldError] | null => {
+export function validateRegister(options: UsernamePasswordInput): [FieldError] | null {
   // validate for email
   if (!options.email.includes("@")) {
     return [
       {
         field: "email",
-        message: "invalid email",
-      },
+        message: "invalid email"
+      }
     ]
   }
 
@@ -16,15 +16,15 @@ export const validateRegister = (options: UsernamePasswordInput): [FieldError] |
     return [
       {
         field: "username",
-        message: "length must be greater than 2",
-      },
+        message: "length must be greater than 2"
+      }
     ]
   } else if (options.username.includes("@")) {
     return [
       {
         field: "username",
-        message: "cannot include an @",
-      },
+        message: "cannot include an @"
+      }
     ]
   }
 
@@ -33,8 +33,8 @@ export const validateRegister = (options: UsernamePasswordInput): [FieldError] |
     return [
       {
         field: "password",
-        message: "length must be greater than 2",
-      },
+        message: "length must be greater than 2"
+      }
     ]
   }
 

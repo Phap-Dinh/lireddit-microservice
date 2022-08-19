@@ -7,18 +7,17 @@ import { User } from '../../entities/User';
 
 @Resolver(Post)
 export class PostResolver {
-  @FieldResolver(() => String)
+  @FieldResolver(() => String, { description: "a short text" })
   textSnippet(
     @Root() root: Post
   ) {
     return root.text.slice(0, 50)
   }
 
-  @FieldResolver(() => User)
+  @FieldResolver(() => User, { description: "call to User's resolveRefenrence"})
   creator(
     @Root() post: Post
   ) {
-    console.log('creator')
     return { __typename: "User", id: post.creatorId }
   }
 

@@ -5,10 +5,11 @@ import { User } from '../../entities/User'
 
 @Resolver(User)
 export class UserPostsResolver {
-  @FieldResolver(() => [Post])
+  @FieldResolver(() => [Post], { description: "resolved by Post"})
   posts(
     @Root() user: User
   ): Promise<Post[]> {
+    
     return Post.find({ where: { creatorId: user.id }})
   }
 }

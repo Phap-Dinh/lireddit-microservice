@@ -24,7 +24,7 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   username: string 
 
-  @Field()
+  @Field(() => String, { description: "user only see your email after login" })
   @Column({ unique: true })
   email: string
 
