@@ -33,9 +33,18 @@ app.use(session({
     sameSite: "none",
     secure: true
   },
-  saveUninitialized: true, 
+  saveUninitialized: false, 
   secret: SESSION_SECRET, 
   resave: false,
 }))
+
+// app.use((req, res, next) => {
+//   console.log("req in middleware ", req.sessionID)
+//   console.log("req in middleware ", req.session)
+//   console.log("res in middle ", res.req.sessionID)
+//   console.log("res in middle ", res.req.session)
+
+//   next()
+// })
 
 export { app, redisClient }

@@ -10,5 +10,8 @@
   $ yarn add @apollo/gateway@0.51.0
   $ yarn add  graphql@15.8.0 
 
+  $ yarn add apollo-server-types
+  $ yarn add apollo-server-plugin-base
+
 # apollo-server-express an apollo-gateway
   Need set up cors

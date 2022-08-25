@@ -14,6 +14,8 @@
     "@apollo/gateway": "0.51.0",
     "apollo-server": "^3.10.1",
     "apollo-server-express": "^3.10.1",
+    "apollo-server-plugin-base": "^3.6.2",
+    "apollo-server-types": "^3.6.2",
     "express": "^4.18.1",
     "graphql": "15.8.0",
     "reflect-metadata": "^0.1.13"
